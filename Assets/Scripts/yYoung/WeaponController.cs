@@ -11,7 +11,8 @@ public class WeaponController : MonoBehaviour   // WeaponController이라는 Cla
     private Vector3 initialPosition;         // 무기의 초기 위치
     private bool isSwinging = false;         // 현재 스윙 중인지 여부
     public bool isAttacking = false;         // 공격 상태 여부
-
+    private Collider2D currentEnemy;         // 현재 충돌 중인 적의 Collider2D
+    
     void Start()
     {
         // 무기의 초기 위치 저장, 공격이 끝난 후, 다시 이 위치로 돌아옴
@@ -25,6 +26,12 @@ public class WeaponController : MonoBehaviour   // WeaponController이라는 Cla
         if (Input.GetKeyDown(KeyCode.X) && !isSwinging)
         {
             StartCoroutine(SwingWeapon());  // 스윙 모션 실행
+        }
+
+        if (isAttacking && currentEnemy != null)
+        {
+            AttackEnemy(currentEnemy);
+            isAttacking = false;  // 한 번 공격 후 공격 상태 종료
         }
     }
 
@@ -66,9 +73,10 @@ public class WeaponController : MonoBehaviour   // WeaponController이라는 Cla
     }
 
     // 충돌 감지
+    /*
     private void OnTriggerEnter2D(Collider2D collision) // 충돌이 발생했을 때, 실행
     {
-        Debug.Log("충돌 감지됨: " + collision.gameObject.name); // 충돌한 오브젝트의 이름 로그 출력
+        // Debug.Log("충돌 감지됨: " + collision.gameObject.name); // 충돌한 오브젝트의 이름 로그 출력
         // 공격 중이고 Enemy태그를 가지고 있는지 확인
         if (collision.CompareTag("Enemy") && isAttacking)
         {
@@ -80,6 +88,50 @@ public class WeaponController : MonoBehaviour   // WeaponController이라는 Cla
                 Debug.Log("적에게 공격함: " + enemy.name); // 적에게 공격할 때 로그 출력
                 enemy.TakeDamage(); // 적이 1초동안 정지
             }
+        }
+    }
+    */
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            Debug.Log("범위 안으로 적이 들어옴");
+            currentEnemy = collision;  // 적이 범위에 들어온 경우 저장
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy") && collision == currentEnemy)
+        {
+            Debug.Log("범위 밖으로 적이 나감");
+            currentEnemy = null;  // 적이 범위에서 나가면 초기화
+        }
+    }
+
+    private void AttackEnemy(Collider2D enemyCollider)
+    {
+        EnemyController enemy = enemyCollider.GetComponent<EnemyController>();
+        if (enemy != null)
+        {
+            Debug.Log("적에게 공격 성공: " + enemy.name);
+            enemy.TakeDamage();  // 적에게 데미지 적용
+            //currentEnemy = null; // 한 번 공격 후 초기화
+
+            // 1초 후에도 적이 여전히 범위 내에 있으면 currentEnemy를 다시 할당
+            StartCoroutine(CheckEnemyStillInRange(enemyCollider));
+        }
+    }
+
+    private IEnumerator CheckEnemyStillInRange(Collider2D enemyCollider)
+    {
+        yield return new WaitForSeconds(1f);  // 1초 대기
+
+        // 여전히 적이 범위 내에 있으면 currentEnemy로 다시 할당
+        if (enemyCollider != null && enemyCollider == currentEnemy)
+        {
+            currentEnemy = enemyCollider;
         }
     }
 }

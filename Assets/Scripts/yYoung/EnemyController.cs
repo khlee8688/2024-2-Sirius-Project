@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour
         StartCoroutine(MoveEnemy());
     }
 
-    private IEnumerator MoveEnemy()
+    private IEnumerator MoveEnemy() // enemy가 계속해서 이동
     {
         while (true) // 무한 루프
         {

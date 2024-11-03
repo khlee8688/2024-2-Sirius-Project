@@ -27,5 +27,8 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision){
+        //Debug.Log("충돌 감지됨: " + collision.gameObject.name); // 충돌한 오브젝트의 이름 로그 출력
+    }
 }
 
