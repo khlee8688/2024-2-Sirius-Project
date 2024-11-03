@@ -7,6 +7,8 @@ public class PlayerFrozen : MonoBehaviour
 {
     [SerializeField] float maxTime = 960.0f;
     [SerializeField] float waitSecond = 3.0f;
+    [SerializeField] GameObject gameOver;
+
 
     private float currentTime;
     private IEnumerator coroutine;
@@ -38,6 +40,7 @@ public class PlayerFrozen : MonoBehaviour
 
 
     public IEnumerator GameOver(){
+        gameOver.SetActive(true);
         yield return new WaitForSeconds(waitSecond);
         SceneManager.LoadScene("TempMain");
     }
