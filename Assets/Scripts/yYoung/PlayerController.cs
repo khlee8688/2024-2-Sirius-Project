@@ -21,13 +21,10 @@ public class PlayerController : MonoBehaviour
     {
         // 입력 받기
         movement.x = Input.GetAxis("Horizontal");
-        movement.y = Input.GetAxis("Vertical");
-
-        // C 키를 눌렀을 때 투사체 발사
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            FireProjectile();
-        }
+        
+        // 좌우 이동 입력
+        float moveInput = Input.GetAxis("Horizontal");
+        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
     }
 
     private void FixedUpdate()
@@ -42,6 +39,7 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
+/*
     private void FireProjectile()
     {
         // 투사체를 발사
@@ -54,13 +52,19 @@ public class PlayerController : MonoBehaviour
             projectile.transform.rotation = Quaternion.Euler(0, 0, angle); // 각도에 따라 회전
         }
 
-        /* 나중에 추가해줄 수 있음
+        
+        
+    }
+
+*/
+    
+    /* 나중에 추가해줄 수 있음
             // 발사 이펙트 재생
             if (muzzleFlash != null)
             {
                 muzzleFlash.Play();
             }
         */
-        
-    }
+
+
 }

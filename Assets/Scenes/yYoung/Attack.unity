@@ -238,7 +238,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -308,6 +308,7 @@ GameObject:
   - component: {fileID: 376661856}
   - component: {fileID: 376661858}
   - component: {fileID: 376661857}
+  - component: {fileID: 376661859}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -472,6 +473,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &376661859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376661851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f9e080e9067baf4abb40474e24674f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 2493558686846976760, guid: fe79951b1ea8aba47a976bc81820ce4f, type: 3}
+  spawnPoint: {fileID: 1795061182}
+  launchForce: 500
+  cooldownTime: 2
 --- !u!1 &831979204
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +712,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

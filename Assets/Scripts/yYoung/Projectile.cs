@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed = 5f;           // 투사체의 속도
-    public float arcHeight = 2f;       // 포물선의 높이
+    public float speed = 5f;            // 투사체의 속도
+    public float arcHeight = 2f;        // 포물선의 높이
     public float lifetime = 2f;         // 투사체의 생존 시간
     private Vector3 velocity;           // 투사체의 속도 벡터
     private bool isMoving = true;       // 투사체 이동 여부
+    private bool onGround = false;      // 투사체가 땅에 닿았는지 여부
 
     private void Start()
     {
@@ -20,11 +21,11 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        if (isMoving)
+        if (isMoving && !onGround)
         {
             // 중력 효과를 적용
             velocity.y += Physics.gravity.y * Time.deltaTime; // 중력 적용
-            transform.position += velocity * Time.deltaTime;   // 새로운 위치로 이동
+            transform.position += velocity * Time.deltaTime;  // 새로운 위치로 이동
         }
     }
 
@@ -39,14 +40,13 @@ public class Projectile : MonoBehaviour
                 Debug.Log("투사체 명중!");
                 enemy.TakeDamage(); // 적에게 피해 주기
             }
-            // 충돌 후 투사체 비활성화
-            Destroy(gameObject);
+            Destroy(gameObject); // 적과 충돌 시 즉시 삭제
         }
+
         // Ground와 충돌했을 때
-        else if (collision.CompareTag("Ground"))
+        else if (collision.CompareTag("Ground") && !onGround)
         {
             Debug.Log("투사체가 땅에 떨어짐");
-            // 충돌 후 2초 뒤에 삭제
             Destroy(gameObject);
         }
     }
