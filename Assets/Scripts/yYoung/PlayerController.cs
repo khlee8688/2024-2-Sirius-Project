@@ -7,9 +7,6 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 3f;                      // 플레이어 이동 속도
     private Rigidbody2D rb;                            // 플레이어의 Rigidbody2D 컴포넌트
     private Vector2 movement;                          // 플레이어의 이동 방향
-
-    public GameObject projectilePrefab;                // 투사체 프리팹
-    public Transform launchPoint;                      // 투사체를 발사할 위치
     public ParticleSystem muzzleFlash;                 // 발사 이펙트
 
     private void Start()

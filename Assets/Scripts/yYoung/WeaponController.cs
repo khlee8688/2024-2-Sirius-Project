@@ -71,26 +71,6 @@ public class WeaponController : MonoBehaviour   // WeaponController이라는 Cla
         isSwinging = false;  // 스윙 종료
         isAttacking = false; // 공격 상태 종료
     }
-
-    // 충돌 감지
-    /*
-    private void OnTriggerEnter2D(Collider2D collision) // 충돌이 발생했을 때, 실행
-    {
-        // Debug.Log("충돌 감지됨: " + collision.gameObject.name); // 충돌한 오브젝트의 이름 로그 출력
-        // 공격 중이고 Enemy태그를 가지고 있는지 확인
-        if (collision.CompareTag("Enemy") && isAttacking)
-        {
-            // 충돌한 객체에 EnemyController 스크립트가 있는지 확인
-            // 해당 스크립트가 없다면 enemy에는 null이 반환됨
-            EnemyController enemy = collision.GetComponent<EnemyController>();
-            if (enemy != null)  // 해당 스크립트가 있어서 null이 반환되지 않은 경우
-            {
-                Debug.Log("적에게 공격함: " + enemy.name); // 적에게 공격할 때 로그 출력
-                enemy.TakeDamage(); // 적이 1초동안 정지
-            }
-        }
-    }
-    */
     
     private void OnTriggerEnter2D(Collider2D collision)
     {

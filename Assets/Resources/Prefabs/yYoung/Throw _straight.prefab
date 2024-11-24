@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5868954575486085581}
   - component: {fileID: 1665340419657512720}
-  - component: {fileID: -638163061398631020}
   - component: {fileID: -7923080618428639414}
   - component: {fileID: 536777284345575313}
+  - component: {fileID: 6646319931487125004}
   m_Layer: 0
-  m_Name: Throw
+  m_Name: Throw _straight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.7186315, a: 1}
+  m_Color: {r: 1, g: 0.96931684, b: 0.023584902, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -87,21 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-638163061398631020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2493558686846976760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6927b59228d44b44783dbfb4f5ff0e13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  arcHeight: 10
-  lifetime: 2
 --- !u!58 &-7923080618428639414
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -152,7 +137,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -164,3 +149,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6646319931487125004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2493558686846976760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16a492939c0ce149b735494ca457ac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 2

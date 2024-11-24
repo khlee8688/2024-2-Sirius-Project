@@ -398,8 +398,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  projectilePrefab: {fileID: 2493558686846976760, guid: fe79951b1ea8aba47a976bc81820ce4f, type: 3}
-  launchPoint: {fileID: 1795061182}
   muzzleFlash: {fileID: 0}
 --- !u!50 &376661857
 Rigidbody2D:
@@ -416,7 +414,7 @@ Rigidbody2D:
   m_Mass: 10
   m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -485,10 +483,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f9e080e9067baf4abb40474e24674f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 2493558686846976760, guid: fe79951b1ea8aba47a976bc81820ce4f, type: 3}
+  projectilePrefab_Parabola: {fileID: 2493558686846976760, guid: fe79951b1ea8aba47a976bc81820ce4f, type: 3}
+  projectilePrefab_Straight: {fileID: 2493558686846976760, guid: 3033bda8242d79f439562d7ddc2265a2, type: 3}
   spawnPoint: {fileID: 1795061182}
-  launchForce: 500
-  cooldownTime: 2
+  straightSpeed: 20
+  parabolaSpeedX: 7
+  parabolaSpeedY: 10
 --- !u!1 &831979204
 GameObject:
   m_ObjectHideFlags: 0

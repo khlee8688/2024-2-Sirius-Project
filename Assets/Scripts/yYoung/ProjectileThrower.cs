@@ -1,43 +1,66 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileThrower : MonoBehaviour
 {
-    public GameObject projectilePrefab; // 발사할 투사체 프리팹
-    public Transform spawnPoint;        // 투사체가 생성될 위치
-    public float launchForce = 500f;    // 투사체의 발사 힘
-    public float cooldownTime = 2f;     // 3번 연속 발사 후 쿨다운 시간
-    private int shotCount = 0;          // 발사 횟수 추적
-    private bool isCooldown = false;    // 쿨다운 상태 여부
+    public GameObject projectilePrefab_Parabola; // 포물선 투사체 프리팹
+    public GameObject projectilePrefab_Straight; // 직선 투사체 프리팹
+    public Transform spawnPoint;                 // 투사체 생성 위치
+
+    public float straightSpeed = 20f;   // 직선 운동 속도
+    public float parabolaSpeedX = 10f;  // 포물선 X축 속도
+    public float parabolaSpeedY = 10f;  // 포물선 Y축 속도
+
+    private bool parabolaMode = true;   // 포물선 모드 활성화 상태
 
     void Update()
     {
-        // 발사 입력 및 쿨다운 상태 확인
-        if (Input.GetKeyDown(KeyCode.C) && !isCooldown)
+        // 모드 전환
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            parabolaMode = true;
+            Debug.Log("포물선 모드 활성화");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            parabolaMode = false;
+            Debug.Log("직선 모드 활성화");
+        }
+
+        // C 키로 투사체 발사
+        if (Input.GetKeyDown(KeyCode.C))
         {
             LaunchProjectile();
-            shotCount++;
-
-            // 3번 연속 발사했을 때 쿨다운 시작
-            if (shotCount >= 3)
-            {
-                StartCoroutine(StartCooldown());
-            }
         }
     }
 
     void LaunchProjectile()
     {
-        GameObject projectile = Instantiate(projectilePrefab, spawnPoint.position, Quaternion.identity);
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-    }
-
-    IEnumerator StartCooldown()
-    {
-        isCooldown = true;
-        shotCount = 0; // 발사 횟수 초기화
-        yield return new WaitForSeconds(cooldownTime);
-        isCooldown = false;
+        if (parabolaMode)
+        {
+            // 포물선 투사체 생성
+            GameObject projectile = Instantiate(projectilePrefab_Parabola, spawnPoint.position, spawnPoint.rotation);
+            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.velocity = new Vector3(parabolaSpeedX, parabolaSpeedY, 0);
+            }
+        }
+        else
+        {
+            // 일직선 투사체 생성
+            GameObject projectile = Instantiate(projectilePrefab_Straight, spawnPoint.position, spawnPoint.rotation);
+            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                // 2D 게임에서는 right 방향으로 발사
+                rb.velocity = spawnPoint.right * straightSpeed;
+                Debug.Log("발사 방향: " + spawnPoint.right + ", 속도: " + straightSpeed);
+            }
+            else
+            {
+                Debug.LogError("ERROR: Rigidbody2D가 프리팹에 연결되어 있지 않습니다!");
+            }
+        }
     }
 }

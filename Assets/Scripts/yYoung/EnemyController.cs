@@ -56,10 +56,8 @@ public class EnemyController : MonoBehaviour
     private IEnumerator StopMovement(float duration)
     {
         isMoving = false; // 이동 멈춤
-
         // 1초 대기
         yield return new WaitForSeconds(duration);
-
         isMoving = true; // 이동 재개
     }
 }
