@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float lifetime = 2f;  // 생존 시간
+    public float lifetime = 2f;  // 투사체 생존 시간
+    public float explosionRadius = 1.5f; // 폭발 반경
+    public GameObject explosionPrefab; // 폭발 효과 프리팹
 
     void Start()
     {
@@ -18,16 +20,43 @@ public class Projectile : MonoBehaviour
             EnemyController enemy = collision.GetComponent<EnemyController>();
             if (enemy != null)
             {
-                Debug.Log("투사체 명중!");
-                enemy.TakeDamage(); // 적에게 피해 주기
+                Debug.Log("투사체가 적에게 명중!");
+                Explode(); // 폭발 효과 및 범위 공격
+                // enemy.TakeDamage(); // 적에게 피해 주기
             }
-            Destroy(gameObject); // 적과 충돌 시 즉시 삭제
+            Destroy(gameObject); // 적과 충돌 시 삭제
         }
-        // Ground와 충돌했을 때
+        // 땅과 충돌했을 때
         else if (collision.CompareTag("Ground"))
         {
             Debug.Log("투사체가 땅에 떨어짐");
+            Explode(); // 폭발 효과 및 범위 공격
             Destroy(gameObject);
+        }
+    }
+
+    private void Explode()
+    {
+        // 폭발 효과 생성
+        if (explosionPrefab != null)
+        {
+            GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            explosion.transform.localScale = new Vector3(3, 3, 3); // 폭발 크기 조정
+            Destroy(explosion, 1.0f); // 폭발 효과 1초 후 삭제
+        }
+
+        // 폭발 범위 내 오브젝트 감지
+        Collider2D[] collisions = Physics2D.OverlapCircleAll(transform.position, 1.5f); // 폭발 범위는 지름 3.0f의 원
+
+        // Enemy 태그를 가진 오브젝트 감지
+        foreach (Collider2D collision in collisions)
+        {
+            if (collision.CompareTag("Enemy"))
+            {
+                EnemyController enemy = collision.GetComponent<EnemyController>();
+                enemy.TakeDamage(); // 적에게 피해 주기
+                Debug.Log("폭발 범위 내 적 발견: " + collision.gameObject.name);
+            }
         }
     }
 }
