@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -11,53 +10,89 @@ public class EnemyController : MonoBehaviour
     private bool movingTowardsTarget = true; // 이동 방향 플래그
     private bool isMoving = true;        // 이동 중인지 여부
 
+    public float knockbackForce = 10f;    // 넉백 힘
+    public float knockbackDuration = 0f; // 넉백 지속 시간
+    private bool isKnockedBack = false;  // 현재 넉백 상태 여부
+    private Rigidbody2D rb;             // Rigidbody2D 참조
+
     private void Start()
     {
         // 시작 위치 저장
         startPosition = transform.position;
         targetPosition = startPosition + new Vector3(moveDistance, 0, 0); // 목표 위치 설정
+        // Rigidbody2D 컴포넌트 가져오기
+        rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody2D가 없습니다. EnemyController를 사용하려면 Rigidbody2D를 추가하세요.");
+        }
         StartCoroutine(MoveEnemy());
     }
 
-    private IEnumerator MoveEnemy() // enemy가 계속해서 이동
+    private IEnumerator MoveEnemy()
     {
-        while (true) // 무한 루프
+        while (true)
         {
-            if (isMoving) // 이동 중일 때만 이동
+            if (isMoving && !isKnockedBack) // 이동 중일 때만 이동
             {
-                // 이동할 방향에 따라 이동
                 float step = moveSpeed * Time.deltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
 
-                // 목표 위치에 도달했는지 확인
                 if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
                 {
-                    // 방향 전환
                     movingTowardsTarget = !movingTowardsTarget;
-
-                    // 목표 위치 변경
-                    targetPosition = movingTowardsTarget ? 
-                        startPosition + new Vector3(moveDistance, 0, 0) : 
-                        startPosition - new Vector3(moveDistance, 0, 0);
+                    targetPosition = movingTowardsTarget
+                        ? startPosition + new Vector3(moveDistance, 0, 0)
+                        : startPosition - new Vector3(moveDistance, 0, 0);
                 }
             }
-
             yield return null; // 다음 프레임까지 대기
         }
     }
 
-    // 공격을 받았을 때 호출되는 메서드
-    public void TakeDamage()
+    // 공격을 받았을 때 호출되는 메서드 (넉백 포함)
+    public void TakeDamage(Vector2 bulletDirection)
     {
-        // 1초 동안 이동을 멈춤
-        StartCoroutine(StopMovement(1f)); // 1초 정지
+        Vector2 direction;
+        if (!isKnockedBack)
+        {
+            if (bulletDirection.x > 0)
+            {
+                direction = new Vector2(-5,0);
+                Debug.Log("x값은 양수입니다.");
+                StartCoroutine(ApplyKnockback(direction));
+            }
+            else if (bulletDirection.x < 0)
+            {
+                direction = new Vector2(5,0);
+                Debug.Log("x값은 음수입니다.");
+                StartCoroutine(ApplyKnockback(direction));
+            }
+            else
+            {
+                direction = new Vector2(0,5);
+                Debug.Log("x값은 0입니다.");
+                StartCoroutine(ApplyKnockback(direction));
+            }   
+            
+        }
     }
 
-    private IEnumerator StopMovement(float duration)
+    private IEnumerator ApplyKnockback(Vector2 direction)
     {
-        isMoving = false; // 이동 멈춤
-        // 1초 대기
-        yield return new WaitForSeconds(duration);
-        isMoving = true; // 이동 재개
+        isKnockedBack = true; // 넉백 상태 활성화
+        //Debug.Log($"넉백 방향2: {direction}");
+
+        // 현재 속도를 초기화하고 
+        rb.velocity = Vector2.zero;
+
+        // 넉백 방향으로 힘을 가함
+        rb.AddForce(direction.normalized * knockbackForce, ForceMode2D.Impulse);
+        // 넉백 지속 시간 동안 대기
+        yield return new WaitForSeconds(knockbackDuration);
+
+        isKnockedBack = false; // 넉백 상태 해제
+
+        rb.velocity = Vector2.zero; // 속도 초기화
     }
 }

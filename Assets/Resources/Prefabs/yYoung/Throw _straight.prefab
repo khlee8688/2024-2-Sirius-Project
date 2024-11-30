@@ -161,4 +161,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16a492939c0ce149b735494ca457ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackForce: 100
   lifetime: 2

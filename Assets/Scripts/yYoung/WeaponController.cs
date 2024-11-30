@@ -50,8 +50,8 @@ public class WeaponController : MonoBehaviour   // WeaponController이라는 Cla
         {
             elapsedTime += Time.deltaTime * swingSpeed;
             /*
-            Vector3.Lerp(startPosition, endPosition, t);
-            t 값이 증가함에 따라 객체가 startPosition에서 endPosition으로 이동
+                Vector3.Lerp(startPosition, endPosition, t);
+                t 값이 증가함에 따라 객체가 startPosition에서 endPosition으로 이동
             */
             // initialPosition에서 targetPosition으로 elapsedTime동안 이동
             weaponTransform.localPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime);
@@ -90,18 +90,33 @@ public class WeaponController : MonoBehaviour   // WeaponController이라는 Cla
         }
     }
 
-    private void AttackEnemy(Collider2D enemyCollider)
+    private void AttackEnemy(Collider2D collision)
     {
-        EnemyController enemy = enemyCollider.GetComponent<EnemyController>();
-        if (enemy != null)
+        if (collision.CompareTag("Enemy"))
         {
-            Debug.Log("적에게 공격 성공: " + enemy.name);
-            enemy.TakeDamage();  // 적에게 데미지 적용
-            //currentEnemy = null; // 한 번 공격 후 초기화
-
-            // 1초 후에도 적이 여전히 범위 내에 있으면 currentEnemy를 다시 할당
-            StartCoroutine(CheckEnemyStillInRange(enemyCollider));
+            knockBack(collision);
         }
+    }
+
+    private void knockBack(Collider2D collision){
+        // EnemyController 스크립트 가져오기
+            EnemyController enemy = collision.GetComponent<EnemyController>();
+
+            if (enemy != null)
+            {
+                Debug.Log("투사체 명중!");
+                // 충돌한 적과의 상대적 방향 계산
+                // collision.transform.position 충돌한 오브젝트(적)의 위치.
+                // transform.position: 현재 오브젝트(투사체)의 위치.
+                Vector2 bulletDirection = (transform.position - collision.transform.position).normalized;
+
+                Debug.Log($"넉백 방향1: {bulletDirection}");
+                Debug.Log($"투사체의 위치: {transform.position}");
+                Debug.Log($"적의 위치: {collision.transform.position}");
+                
+                // enemy.TakeDamage(); // 적에게 피해 주기
+                enemy.TakeDamage(bulletDirection);
+            }
     }
 
     private IEnumerator CheckEnemyStillInRange(Collider2D enemyCollider)

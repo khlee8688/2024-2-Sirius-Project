@@ -1,5 +1,5 @@
 using UnityEngine;
-
+// 포물선을 그리며 날아가는 투사체
 public class Projectile : MonoBehaviour
 {
     public float lifetime = 2f;  // 투사체 생존 시간
@@ -53,10 +53,31 @@ public class Projectile : MonoBehaviour
         {
             if (collision.CompareTag("Enemy"))
             {
-                EnemyController enemy = collision.GetComponent<EnemyController>();
-                enemy.TakeDamage(); // 적에게 피해 주기
                 Debug.Log("폭발 범위 내 적 발견: " + collision.gameObject.name);
+
+                knockBack(collision);
             }
         }
+    }
+
+        private void knockBack(Collider2D collision){
+        // EnemyController 스크립트 가져오기
+            EnemyController enemy = collision.GetComponent<EnemyController>();
+
+            if (enemy != null)
+            {
+                Debug.Log("투사체 명중!");
+                // 충돌한 적과의 상대적 방향 계산
+                // collision.transform.position 충돌한 오브젝트(적)의 위치.
+                // transform.position: 현재 오브젝트(투사체)의 위치.
+                Vector2 bulletDirection = (transform.position - collision.transform.position).normalized;
+
+                Debug.Log($"넉백 방향1: {bulletDirection}");
+                Debug.Log($"투사체의 위치: {transform.position}");
+                Debug.Log($"적의 위치: {collision.transform.position}");
+                
+                // 적에게 피해 주기
+                enemy.TakeDamage(bulletDirection);
+            }
     }
 }
