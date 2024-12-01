@@ -204,7 +204,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -380,7 +380,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1795061182}
@@ -487,6 +487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab_Parabola: {fileID: 2493558686846976760, guid: fe79951b1ea8aba47a976bc81820ce4f, type: 3}
   projectilePrefab_Straight: {fileID: 2493558686846976760, guid: 3033bda8242d79f439562d7ddc2265a2, type: 3}
+  projectiliProfab_Attach: {fileID: 2493558686846976760, guid: f99fc348142a70b40b20d5c382bf5104, type: 3}
   spawnPoint: {fileID: 1795061182}
   straightSpeed: 20
   parabolaSpeedX: 7
@@ -887,7 +888,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.5, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 1}
+  m_LocalScale: {x: 20, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
