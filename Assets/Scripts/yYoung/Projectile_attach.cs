@@ -11,7 +11,7 @@ public class Projectile_attach : MonoBehaviour
     private void Update()
     {
         // 스페이스바 입력 시 폭발
-        if (isAttached && Input.GetKeyDown(KeyCode.Space))
+        if (isAttached && Input.GetKeyDown(KeyCode.B))
         {
             Explode();
         }
